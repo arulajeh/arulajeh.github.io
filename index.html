@@ -1,11 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Dunia</title>
-</head>
-<body>
-    <h1>Hello Dunia</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cek Khodam</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fe99c3 100%);
+        font-family: "Arial", sans-serif;
+        margin: 0;
+      }
+
+      .container {
+        text-align: center;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .container:hover {
+        transform: scale(1.05);
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 2em;
+        background: -webkit-linear-gradient(#ff416c, #ff4b2b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+
+      input {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 80%;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 1.2em;
+      }
+
+      .khodam-img {
+        margin-top: 10px;
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-height: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cek Khodam</h1>
+      <input type="text" id="inputName" placeholder="Masukkan nama Anda" />
+      <button onclick="cekKhodam()">Cek</button>
+      <div id="result"></div>
+    </div>
+    <script>
+      const khodamNames = [
+        "Doraemon",
+        "SpongeBob",
+        "Naruto",
+        "Goku",
+        "Mickey Mouse",
+        "Pikachu",
+        "Shrek",
+        "Elsa",
+        "Buzz Lightyear",
+        "Minion Bob",
+        "Scooby-Doo",
+        "Garfield",
+        "Tom & Jerry",
+        "Homer Simpson",
+        "Patrick Star",
+        "Bugs Bunny",
+        "Popeye",
+        "Bart Simpson",
+        "Minnie Mouse",
+        "Donald Duck",
+        "Jerry Mouse",
+        "Goofy",
+        "Tweety",
+        "Sylvester",
+        "Papa Smurf",
+        "Smurfette",
+      ];
+
+      const giphyApiKey = "qktrZsLZTn6NIn84vSzB20j28GC9yFdo"; // Ganti dengan API key Anda
+
+      function cekKhodam() {
+        const inputName = document.getElementById("inputName").value;
+        if (inputName.trim() === "") {
+          alert("Masukkan nama Anda terlebih dahulu.");
+          return;
+        }
+        const randomIndex = Math.floor(Math.random() * khodamNames.length);
+        const randomKhodam = khodamNames[randomIndex];
+
+        fetch(
+          `https://api.giphy.com/v1/gifs/search?api_key=${giphyApiKey}&q=${randomKhodam}&limit=20`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const randomIndex = Math.floor(Math.random() * data.data.length);
+            const gifUrl =
+              data.data[randomIndex]?.images?.downsized_medium?.url ||
+              "https://via.placeholder.com/150";
+            document.getElementById("result").innerHTML = `
+                <p>Nama Khodam Anda adalah: ${randomKhodam}</p>
+                <img src="${gifUrl}" alt="${randomKhodam}" class="khodam-img">
+            `;
+          })
+          .catch((error) => {
+            console.error("Error fetching GIF:", error);
+            document.getElementById("result").innerHTML = `
+                <p>Nama Khodam Anda adalah: ${randomKhodam}</p>
+                <p>Gagal memuat gambar.</p>
+            `;
+          });
+      }
+    </script>
+  </body>
 </html>
