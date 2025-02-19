@@ -162,7 +162,7 @@
         }
 
         // Open WebSocket connection with user_id as query parameter
-        ws = new WebSocket(`ws://simple-chat-rust.fly.dev?user_id=${encodeURIComponent(username)}`);
+        ws = new WebSocket(`wss://simple-chat-rust.fly.dev?user_id=${encodeURIComponent(username)}`);
 
         ws.onopen = () => {
           console.log("Connected to chat server");
